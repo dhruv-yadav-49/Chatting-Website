@@ -132,7 +132,7 @@ const Homepage = () => {
             <span role="img" aria-label="sparkle">
               ✨
             </span>
-            Made by Raunak Agarwal
+            Made by Dhruv Yadav
             <span role="img" aria-label="chat">
               ❤️‍🔥
             </span>
