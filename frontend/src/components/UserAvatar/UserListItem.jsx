@@ -20,11 +20,10 @@ const UserListItem = ({ user, handleFunction }) => {
           />
         ) : null}
         <span
-          className={`text-sm font-semibold text-white ${
-            user.pic ? "hidden" : "flex"
-          }`}
+          className={`text-sm font-semibold text-white ${user.pic ? "hidden" : "flex"
+            }`}
         >
-          {user.name.charAt(0).toUpperCase()}
+          {user?.name?.charAt(0).toUpperCase() || "?"}
         </span>
       </div>
       <div className="flex-1">

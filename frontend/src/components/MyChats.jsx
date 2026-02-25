@@ -35,22 +35,22 @@ const MyChats = ({ fetchAgain }) => {
   // Sort chats to show newest messages first
   const sortedChats = chats
     ? [...chats].sort((a, b) => {
-        if (!a.latestMessage && !b.latestMessage) return 0;
-        if (!a.latestMessage) return 1;
-        if (!b.latestMessage) return -1;
-        return (
-          new Date(b.latestMessage.createdAt) -
-          new Date(a.latestMessage.createdAt)
-        );
-      })
+      if (!a.latestMessage && !b.latestMessage) return 0;
+      if (!a.latestMessage) return 1;
+      if (!b.latestMessage) return -1;
+      return (
+        new Date(b.latestMessage.createdAt) -
+        new Date(a.latestMessage.createdAt)
+      );
+    })
     : [];
 
   const filteredChats = sortedChats.filter((chat) =>
     chat.isGroupChat
       ? chat.chatName.toLowerCase().includes(searchTerm.toLowerCase())
       : getSender(loggedUser, chat.users)
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase())
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())
   );
 
   // Helper function to get the profile picture of the other user in a non-group chat
@@ -65,9 +65,8 @@ const MyChats = ({ fetchAgain }) => {
 
   return (
     <div
-      className={`flex flex-col items-center p-3 bg-white dark:bg-gray-800 w-full md:w-[31%] rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg ${
-        selectedChat ? "hidden md:flex" : "flex"
-      }`}
+      className={`flex flex-col items-center p-3 bg-white dark:bg-gray-800 w-full md:w-[31%] rounded-xl border border-gray-200 dark:border-gray-700 shadow-lg ${selectedChat ? "hidden md:flex" : "flex"
+        }`}
     >
       <div className="flex pb-3 px-2 w-full items-center justify-between">
         <h2 className="text-2xl font-bold text-gray-800 dark:text-white">
@@ -100,11 +99,10 @@ const MyChats = ({ fetchAgain }) => {
               <div
                 key={chat._id}
                 onClick={() => setselectedChat(chat)}
-                className={`flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 border ${
-                  selectedChat === chat
+                className={`flex items-center p-3 rounded-lg cursor-pointer transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 border ${selectedChat === chat
                     ? "bg-blue-50 dark:bg-blue-900/20 border-blue-300 dark:border-blue-600"
                     : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700"
-                }`}
+                  }`}
               >
                 <div className="w-10 h-10 rounded-full mr-3 overflow-hidden bg-gray-300 dark:bg-gray-600 flex items-center justify-center">
                   {getChatUserPic(chat) ? (
@@ -120,10 +118,8 @@ const MyChats = ({ fetchAgain }) => {
                   ) : (
                     <span className="text-sm font-medium text-gray-600 dark:text-gray-300">
                       {!chat.isGroupChat
-                        ? getSender(loggedUser, chat.users)
-                            .charAt(0)
-                            .toUpperCase()
-                        : chat.chatName.charAt(0).toUpperCase()}
+                        ? (getSender(loggedUser, chat.users)?.[0]?.toUpperCase() || "?")
+                        : (chat.chatName?.charAt(0).toUpperCase() || "?")}
                     </span>
                   )}
                 </div>

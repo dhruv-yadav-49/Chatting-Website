@@ -17,50 +17,40 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleClick = () => setShow(!show);
   const navigate = useNavigate();
+  const handleClick = () => setShow(!show);
 
-  const submitHandler = async () => {
-    setLoading(true);
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
     if (!email || !password) {
-      toast.error("Please Fill all the Fields");
-      setLoading(false);
+      toast.error("Please fill all the fields");
       return;
     }
 
     try {
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
+      setLoading(true);
 
       const { data } = await axios.post(
         "/api/user/login",
         { email, password },
-        config
+        { headers: { "Content-Type": "application/json" } }
       );
 
-      toast.success("Login Successful");
+      toast.success("Login successful");
       localStorage.setItem("userInfo", JSON.stringify(data));
-      setLoading(false);
       navigate("/chats");
     } catch (error) {
-      toast.error(`Error: ${error.response?.data?.message || "Login failed"}`);
+      toast.error(error.response?.data?.message || "Login failed");
+    } finally {
       setLoading(false);
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      submitHandler();
     }
   };
 
   return (
-    <div className="w-full max-w-md mx-auto" onKeyDown={handleKeyDown}>
-      <div className="space-y-6">
-        {/* Email Field */}
+    <div className="w-full max-w-md mx-auto">
+      <form className="space-y-6" onSubmit={submitHandler}>
+        {/* Email */}
         <div className="space-y-2">
           <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">
             Email Address
@@ -80,7 +70,7 @@ const Login = () => {
           </div>
         </div>
 
-        {/* Password Field */}
+        {/* Password */}
         <div className="space-y-2">
           <label className="block text-sm font-semibold text-gray-700 dark:text-gray-200 uppercase tracking-wide">
             Password
@@ -102,36 +92,30 @@ const Login = () => {
               onClick={handleClick}
               className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors duration-200"
             >
-              {show ? (
-                <FaEyeSlash className="h-5 w-5" />
-              ) : (
-                <FaEye className="h-5 w-5" />
-              )}
+              {show ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
         </div>
 
-        {/* Submit Button */}
-        <div className="pt-4">
-          <button
-            onClick={submitHandler}
-            disabled={loading}
-            className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-          >
-            {loading ? (
-              <div className="flex items-center">
-                <FaSpinner className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" />
-                Signing in...
-              </div>
-            ) : (
-              <div className="flex items-center">
-                <FaSignInAlt className="w-5 h-5 mr-2" />
-                Sign In
-              </div>
-            )}
-          </button>
-        </div>
-      </div>
+        {/* Submit */}
+        <button
+          type="submit"
+          disabled={loading}
+          className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-xl"
+        >
+          {loading ? (
+            <>
+              <FaSpinner className="animate-spin mr-2 h-5 w-5" />
+              Signing in...
+            </>
+          ) : (
+            <>
+              <FaSignInAlt className="mr-2 h-5 w-5" />
+              Sign In
+            </>
+          )}
+        </button>
+      </form>
     </div>
   );
 };
