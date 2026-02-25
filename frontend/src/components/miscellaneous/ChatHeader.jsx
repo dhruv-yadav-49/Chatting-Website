@@ -181,14 +181,13 @@ const ChatHeader = () => {
                   >
                     <div className="w-10 h-10 rounded-full mr-3 bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center ring-2 ring-blue-200/50 dark:ring-blue-700/50 shadow-lg">
                       <span className="text-sm font-semibold text-white">
-                        {getSender(user, notif.chat.users)
-                          .charAt(0)
-                          .toUpperCase()}
+                        {getSender(user, notif.chat.users)?.[0]?.toUpperCase() ||
+                          "?"}
                       </span>
                     </div>
                     <div className="text-left flex-1">
                       <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                        {getSender(user, notif.chat.users)}
+                        {getSender(user, notif.chat.users) || "Unknown Sender"}
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
                         {notif.content}
@@ -220,11 +219,10 @@ const ChatHeader = () => {
                   />
                 ) : null}
                 <span
-                  className={`text-sm font-semibold text-white ${
-                    user.pic ? "hidden" : "flex"
-                  }`}
+                  className={`text-sm font-semibold text-white ${user.pic ? "hidden" : "flex"
+                    }`}
                 >
-                  {user.name.charAt(0).toUpperCase()}
+                  {user?.name?.charAt(0).toUpperCase() || "?"}
                 </span>
               </div>
             </div>
